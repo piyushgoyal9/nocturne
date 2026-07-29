@@ -1,0 +1,192 @@
+/* Google Font */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap');
+
+/* Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Roboto", sans-serif;
+}
+
+body {
+    background-color: black;
+    color: white;
+}
+
+/* Main Layout */
+.container {
+    display: flex;
+}
+
+.left {
+    width: 25vw;
+    padding: 10px;
+}
+
+.right {
+    width: 75vw;
+    margin: 10px;
+    background-color: #121212;
+}
+
+/* Home */
+.home {
+    padding: 15px;
+}
+
+.home ul {
+    padding: 0;
+}
+
+.home ul li {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    list-style: none;
+    padding: 12px 0;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.home ul li img {
+    width: 22px;
+}
+
+/* Library */
+.library {
+    min-height: 75vh;
+    padding: 15px;
+    position: relative;
+}
+
+.heading {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.heading img {
+    width: 25px;
+}
+
+/* Footer */
+.footer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    position: absolute;
+    bottom: 15px;
+    left: 15px;
+    right: 15px;
+    font-size: 11px;
+    color: #b3b3b3;
+}
+
+.footer span {
+    cursor: pointer;
+}
+
+.footer span:hover {
+    color: white;
+}
+
+/* Header */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #202020;
+    padding: 15px 25px;
+}
+
+.nav {
+    display: flex;
+    gap: 15px;
+}
+
+.nav svg {
+    cursor: pointer;
+}
+
+/* Buttons */
+.button {
+    display: flex;
+    gap: 15px;
+}
+
+.button button {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.button button:first-child {
+    background: transparent;
+    color: #b3b3b3;
+}
+
+.button button:first-child:hover {
+    color: white;
+}
+
+.button button:last-child {
+    background: white;
+    color: black;
+}
+
+.button button:last-child:hover {
+    transform: scale(1.05);
+}
+
+/* Playlist Section */
+.spotify-playlists {
+    padding: 20px;
+}
+
+.spotify-playlists h1 {
+    margin-bottom: 20px;
+}
+
+/* Card Container */
+.cardcontainer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+/* Card */
+.card {
+    width: 200px;
+    background-color: #181818;
+    padding: 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.card:hover {
+    background-color: #282828;
+}
+
+.card img {
+    width: 100%;
+    border-radius: 8px;
+}
+
+.card h2 {
+    margin-top: 12px;
+    font-size: 18px;
+}
+
+.card p {
+    margin-top: 8px;
+    font-size: 14px;
+    color: #b3b3b3;
+    line-height: 1.4;
+}

@@ -1,30 +1,48 @@
-.flex{
+/* Flex Utilities */
+.flex {
     display: flex;
 }
-.justify-center{
+
+.justify-center {
     justify-content: center;
 }
-.items-center{
+
+.items-center {
     align-items: center;
 }
-.border{
-    border:2px solid red;margin: 3px;}
-.bg-black{
-        background-color: black;
-        color: white;
+
+/* Debug Border */
+.border {
+    border: 2px solid red;
+    margin: 3px;
 }
-.invert{
-    filter: invert(1);
+
+/* Background Colors */
+.bg-black {
+    background-color: black;
+    color: white;
 }
-.bg-grey{
+
+.bg-grey {
     background-color: #121212;
 }
-.rounded{
-    border-radius:7px;
+
+/* Filter */
+.invert {
+    filter: invert(1);
 }
-.m-1{
+
+/* Border Radius */
+.rounded {
+    border-radius: 7px;
+}
+
+/* Margin */
+.m-1 {
     margin: 5px;
 }
-.p-1{
-    padding: 10x;
+
+/* Padding */
+.p-1 {
+    padding: 10px;
 }
