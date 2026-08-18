@@ -1,141 +1,271 @@
-
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nocturne</title>
 
-    <title>Musify</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="utility.css" />
+  </head>
 
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="utility.css">
-</head>
-
-<body>
-
+  <body>
     <div class="container flex bg-black">
+      <!-- =========================
+           LEFT SECTION
+      ========================== -->
 
-        <!-- Left Section -->
-        <div class="left">
+      <div class="left">
+        <!-- Home -->
+        <div class="home bg-grey rounded m-1 p-1">
+          <ul>
+            <li>
+              <img class="invert" src="img/home.svg" alt="Home" />
+              Home
+            </li>
 
-            <div class="home bg-grey rounded m-1 p-1">
-
-                <!-- Optional Logo -->
-                <!-- <img class="invert" src="img/logo.svg" alt="Musify Logo"> -->
-
-                <ul>
-                    <li>
-                        <img class="invert" src="img/home.svg" alt="Home">
-                        Home
-                    </li>
-
-                    <li>
-                        <img class="invert" src="img/search.svg" alt="Search">
-                        Search
-                    </li>
-                </ul>
-
-            </div>
-
-            <div class="library bg-grey rounded p-1">
-
-                <div class="heading">
-                    <img class="invert" src="img/playlist.svg" alt="Library">
-                    <h2>Your Library</h2>
-                </div>
-
-                <div class="footer">
-                    <div><span>Legal</span></div>
-                    <div><span>Privacy Policy</span></div>
-                    <div><span>Cookies</span></div>
-                    <div><span>About Ads</span></div>
-                    <div><span>Accessibility</span></div>
-                    <div><span>Cookies</span></div>
-                </div>
-
-            </div>
-
+            <li>
+              <img class="invert" src="img/search.svg" alt="Search" />
+              Search
+            </li>
+          </ul>
         </div>
 
-        <!-- Right Section -->
-        <div class="right bg-grey rounded">
+        <!-- Library -->
+        <div class="library bg-grey rounded p-1">
+          <div class="heading">
+            <img class="invert" src="img/playlist.svg" alt="Library" />
 
-            <div class="header">
+            <h2>Your Library</h2>
+          </div>
 
-                <div class="nav">
-
-                    <svg class="invert"
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                        width="24"
-                        height="24"
-                        fill="none">
-
-                        <path d="M15 6C15 6 9 10.4189 9 12C9 13.5812 15 18 15 18"
-                            stroke="currentColor"
-                            stroke-width="1.5"
-                            stroke-linecap="round"
-                            stroke-linejoin="round" />
-                    </svg>
-
-                    <svg class="invert"
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                        width="24"
-                        height="24"
-                        fill="none">
-
-                        <path d="M9 6C9 6 15 10.4189 15 12C15 13.5812 9 18 9 18"
-                            stroke="currentColor"
-                            stroke-width="1.5"
-                            stroke-linecap="round"
-                            stroke-linejoin="round" />
-                    </svg>
-
-                </div>
-
-                <div class="button">
-                    <button>Sign Up</button>
-                    <button>Log In</button>
-                </div>
-
+          <!-- Footer -->
+          <div class="footer">
+            <div>
+              <span>Legal</span>
             </div>
 
-            <div class="spotify-playlists">
-
-                <h1>Musify Playlists</h1>
-
-                <div class="cardcontainer">
-
-                    <div class="card">
-                        <img src="https://i.scdn.co/image/ab67706f000000026e515187c071e45918e9f0de" alt="Dinner with Friends">
-
-                        <h2>Dinner with Friends</h2>
-
-                        <p>
-                            The perfect soundtrack to those long nights over dinner.
-                        </p>
-                    </div>
-
-                    <div class="card">
-                        <img src="https://i.scdn.co/image/ab67706f000000026e515187c071e45918e9f0de" alt="Dinner with Friends">
-
-                        <h2>Dinner with Friends</h2>
-
-                        <p>
-                            The perfect soundtrack to those long nights over dinner.
-                        </p>
-                    </div>
-
-                </div>
-
+            <div>
+              <span>Privacy Policy</span>
             </div>
 
+            <div>
+              <span>Cookies</span>
+            </div>
+
+            <div>
+              <span>About Ads</span>
+            </div>
+
+            <div>
+              <span>Accessibility</span>
+            </div>
+
+            <div>
+              <span>Cookies</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- =========================
+           RIGHT SECTION
+      ========================== -->
+
+      <div class="right bg-grey rounded">
+        <!-- Header -->
+        <div class="header">
+          <!-- Navigation -->
+          <div class="nav">
+            <!-- Previous -->
+            <svg
+              class="invert"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              width="24"
+              height="24"
+              fill="none"
+            >
+              <path
+                d="M15 6C15 6 9 10.4189 9 12C9 13.5812 15 18 15 18"
+                stroke="currentColor"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+
+            <!-- Next -->
+            <svg
+              class="invert"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              width="24"
+              height="24"
+              fill="none"
+            >
+              <path
+                d="M9 6C9 6 15 10.4189 15 12C15 13.5812 9 18 9 18"
+                stroke="currentColor"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </div>
+
+          <!-- Login Buttons -->
+          <div class="button">
+            <button>Sign Up</button>
+
+            <button>Log In</button>
+          </div>
         </div>
 
+        <!-- =========================
+             PLAYLISTS
+        ========================== -->
+
+        <div class="spotify-playlists">
+          <h1>Nocturne Playlists</h1>
+
+          <div class="cardcontainer">
+            <!-- Card 1 -->
+            <div
+              class="card"
+              data-song="songs/song1.mp3"
+              data-title="I hate you , I love you"
+              data-artist="Olivia o'Brien"
+            >
+              <img
+                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQs_nOZXACIL8P7NEsmtAtl0kh3ZGJ3mVOphJYAsnmB0oK_Nb7oTM6k0j8&s=10"
+                alt="I hate you , I love you"
+              />
+
+              <h2>I hate you , I love you</h2>
+
+              <p>The first english song i ever listened to</p>
+            </div>
+
+            <!-- Card 2 -->
+            <div
+              class="card"
+              data-song="songs/song2.mp3"
+              data-title="Baby"
+              data-artist="justin bieber"
+            >
+              <img
+                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSrhI6bC_GuYL0EZRkPnLMmo3NGsaNLODsxEAuk0YHrKg&s"
+                alt="Baby"
+              />
+
+              <h2>Baby</h2>
+
+              <p>One of fav 2019 songs</p>
+            </div>
+
+            <!-- Card 3 -->
+            <div
+              class="card"
+              data-song="songs/song3.mp3"
+              data-title="Tell your friends"
+              data-artist="Weeknd"
+            >
+              <img
+                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRn1Q3Ifnr4Or12_NuY23-b-c5h1A4zCNsU0HaGy0UaJA&s"
+              />
+
+              <h2>Tell your friends</h2>
+
+              <p>W song</p>
+            </div>
+
+            <!-- Card 4 -->
+            <div
+              class="card"
+              data-song="songs/song4.mp3"
+              data-title="Im good"
+              data-artist="Lil Wayne"
+            >
+              <img
+                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS750aYOP36lXzRezI859jCRmif3XLZkAipRCTH8PkP9g&s=10"
+                alt="Im good"
+              />
+
+              <h2>Im good</h2>
+
+              <p>Nice song</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- =========================
+             PLAYBAR
+        ========================== -->
+
+        <div class="playbar">
+          <!-- Song Information -->
+          <div class="song-info">
+            <div class="song-image">
+              <img id="song-image" src="" alt="Song" />
+            </div>
+
+            <div id="song-details" class="song-details">
+              <div id="song-name" class="song-name">Nocturne</div>
+
+              <div id="song-artist" class="song-artist">Unknown Artist</div>
+            </div>
+          </div>
+
+          <!-- Player Controls -->
+          <div class="player">
+            <!-- Buttons -->
+            <div class="player-buttons">
+              <button id="shuffle">
+
+                <img src="img/shuffle.svg" alt="Shuffle" />
+              </button>
+
+              <button id="previous">
+                <img src="img/angle-double-left.svg" alt="Previous" />
+              </button>
+
+              <button id="play">
+                <img id="play-icon" src="img/play-pause.svg" alt="Play" />
+              </button>
+
+              <button id="next">
+                <img src="img/angle-double-right.svg" alt="Next" />
+              </button>
+
+              <button id="repeat">
+                <img src="img/arrows-repeat.svg" alt="Repeat" />
+              </button>
+
+            </div>
+
+
+            <!-- Progress -->
+            <div class="progress-container">
+              <span id="current-time">0:00</span>
+
+              <input id="progress" type="range" min="0" max="100" value="0" />
+
+              <span id="duration">0:00</span>
+            </div>
+          </div>
+
+          <!-- Volume -->
+          <div class="volume">
+            <span> 🔊 </span>
+
+            <input id="volume" type="range" min="0" max="100" value="100" />
+          </div>
+        </div>
+      </div>
     </div>
-
-</body>
-
+    <audio id="audio"></audio>
+    <script src="script.js"></script>
+  </body>
 </html>
