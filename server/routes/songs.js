@@ -1,8 +1,18 @@
 const express = require("express");
 const multer = require("multer");
 const path = require("path");
-const fs = require("fs");
 const jwt = require("jsonwebtoken");
+
+const {
+    S3Client,
+    PutObjectCommand,
+    DeleteObjectCommand,
+    GetObjectCommand
+} = require("@aws-sdk/client-s3");
+
+const {
+    getSignedUrl
+} = require("@aws-sdk/s3-request-presigner");
 
 const Song = require("../models/Song");
 const User = require("../models/User");
@@ -11,98 +21,90 @@ const router = express.Router();
 
 
 /* =========================================================
-   UPLOAD DIRECTORIES
+   BACKBLAZE B2
 ========================================================= */
 
-const songsUploadPath = path.join(
-    __dirname,
-    "../uploads/songs"
-);
-
-const coversUploadPath = path.join(
-    __dirname,
-    "../uploads/covers"
-);
+const B2_ENDPOINT = process.env.B2_ENDPOINT;
+const B2_BUCKET = process.env.B2_BUCKET;
+const B2_KEY_ID = process.env.B2_KEY_ID;
+const B2_APPLICATION_KEY = process.env.B2_APPLICATION_KEY;
 
 
 /* =========================================================
-   MAKE SURE DIRECTORIES EXIST
+   B2 CONFIG CHECK
 ========================================================= */
 
-fs.mkdirSync(
-    songsUploadPath,
-    { recursive: true }
+console.log("========== B2 CONFIG ==========");
+console.log("B2_ENDPOINT:", B2_ENDPOINT);
+console.log("B2_BUCKET:", B2_BUCKET);
+console.log("B2_KEY_ID loaded:", !!B2_KEY_ID);
+console.log(
+    "B2_APPLICATION_KEY loaded:",
+    !!B2_APPLICATION_KEY
 );
+console.log("===============================");
 
-fs.mkdirSync(
-    coversUploadPath,
-    { recursive: true }
-);
+
+if (!B2_ENDPOINT) {
+    console.error("ERROR: B2_ENDPOINT is missing");
+}
+
+if (!B2_BUCKET) {
+    console.error("ERROR: B2_BUCKET is missing");
+}
+
+if (!B2_KEY_ID) {
+    console.error("ERROR: B2_KEY_ID is missing");
+}
+
+if (!B2_APPLICATION_KEY) {
+    console.error(
+        "ERROR: B2_APPLICATION_KEY is missing"
+    );
+}
 
 
 /* =========================================================
-   MULTER STORAGE
+   S3 CLIENT
 ========================================================= */
 
-const storage = multer.diskStorage({
+const s3 = new S3Client({
 
-    destination: (req, file, cb) => {
+    region: "us-east-005",
 
-        if (file.fieldname === "audio") {
+    endpoint: B2_ENDPOINT,
 
-            cb(
-                null,
-                songsUploadPath
-            );
+    credentials: {
 
-        }
+        accessKeyId:
+            B2_KEY_ID,
 
-        else if (file.fieldname === "cover") {
-
-            cb(
-                null,
-                coversUploadPath
-            );
-
-        }
-
-        else {
-
-            cb(
-                new Error("Invalid file field")
-            );
-
-        }
-
-    },
-
-
-    filename: (req, file, cb) => {
-
-        const uniqueName =
-            Date.now() +
-            "-" +
-            Math.round(
-                Math.random() * 1E9
-            ) +
-            path.extname(
-                file.originalname
-            );
-
-        cb(
-            null,
-            uniqueName
-        );
+        secretAccessKey:
+            B2_APPLICATION_KEY
 
     }
 
 });
 
 
-const upload =
-    multer({
-        storage: storage
-    });
+/* =========================================================
+   MULTER
+   Store files temporarily in memory.
+========================================================= */
+
+const upload = multer({
+
+    storage:
+        multer.memoryStorage(),
+
+    limits: {
+
+        fileSize:
+            100 * 1024 * 1024
+
+    }
+
+});
 
 
 /* =========================================================
@@ -110,22 +112,49 @@ const upload =
 ========================================================= */
 
 router.post(
+
     "/upload",
 
     upload.fields([
+
         {
             name: "audio",
             maxCount: 1
         },
+
         {
             name: "cover",
             maxCount: 1
         }
+
     ]),
 
     async (req, res) => {
 
+        let uploadedAudioKey = null;
+        let uploadedCoverKey = null;
+
         try {
+
+            /* -------------------------
+               VERIFY B2 CONFIG
+            ------------------------- */
+
+            if (!B2_BUCKET) {
+
+                return res.status(500).json({
+
+                    message:
+                        "B2 bucket is not configured"
+
+                });
+
+            }
+
+
+            /* -------------------------
+               GET FORM DATA
+            ------------------------- */
 
             const {
                 title,
@@ -145,8 +174,10 @@ router.post(
             ) {
 
                 return res.status(400).json({
+
                     message:
                         "Audio file is required"
+
                 });
 
             }
@@ -164,14 +195,16 @@ router.post(
 
 
             /* -------------------------
-               CHECK REQUIRED DATA
+               CHECK DATA
             ------------------------- */
 
             if (!title || !artist) {
 
                 return res.status(400).json({
+
                     message:
                         "Title and artist are required"
+
                 });
 
             }
@@ -180,31 +213,131 @@ router.post(
             if (!uploadedBy) {
 
                 return res.status(400).json({
+
                     message:
                         "Uploader information is required"
+
                 });
 
             }
 
 
-            /* -------------------------
-               SAVE SONG TO MONGODB
-            ------------------------- */
+            /* =================================================
+               GENERATE B2 KEYS
+            ================================================= */
+
+            const audioKey =
+                `songs/${Date.now()}-${Math.round(Math.random() * 1E9)}${path.extname(audioFile.originalname)}`;
+
+
+            const coverKey =
+                coverFile
+                    ? `covers/${Date.now()}-${Math.round(Math.random() * 1E9)}${path.extname(coverFile.originalname)}`
+                    : null;
+
+
+            console.log(
+                "Uploading audio to B2:",
+                audioKey
+            );
+
+
+            /* =================================================
+               UPLOAD AUDIO
+            ================================================= */
+
+            await s3.send(
+
+                new PutObjectCommand({
+
+                    Bucket:
+                        B2_BUCKET,
+
+                    Key:
+                        audioKey,
+
+                    Body:
+                        audioFile.buffer,
+
+                    ContentType:
+                        audioFile.mimetype
+
+                })
+
+            );
+
+
+            uploadedAudioKey =
+                audioKey;
+
+
+            console.log(
+                "Audio uploaded successfully"
+            );
+
+
+            /* =================================================
+               UPLOAD COVER
+            ================================================= */
+
+            if (coverFile) {
+
+                console.log(
+                    "Uploading cover to B2:",
+                    coverKey
+                );
+
+
+                await s3.send(
+
+                    new PutObjectCommand({
+
+                        Bucket:
+                            B2_BUCKET,
+
+                        Key:
+                            coverKey,
+
+                        Body:
+                            coverFile.buffer,
+
+                        ContentType:
+                            coverFile.mimetype
+
+                    })
+
+                );
+
+
+                uploadedCoverKey =
+                    coverKey;
+
+
+                console.log(
+                    "Cover uploaded successfully"
+                );
+
+            }
+
+
+            /* =================================================
+               SAVE TO MONGODB
+            ================================================= */
 
             const song =
                 await Song.create({
 
-                    title: title,
+                    title:
+                        title,
 
-                    artist: artist,
+                    artist:
+                        artist,
 
                     audioUrl:
-                        `/uploads/songs/${audioFile.filename}`,
+                        audioKey,
 
                     coverUrl:
-                        coverFile
-                            ? `/uploads/covers/${coverFile.filename}`
-                            : "",
+                        coverKey || "",
 
                     uploadedBy:
                         uploadedBy
@@ -212,11 +345,17 @@ router.post(
                 });
 
 
-            /* -------------------------
-               RESPONSE
-            ------------------------- */
+            console.log(
+                "Song saved to MongoDB:",
+                song._id
+            );
 
-            res.status(201).json({
+
+            /* =================================================
+               RESPONSE
+            ================================================= */
+
+            return res.status(201).json({
 
                 message:
                     "Song uploaded successfully",
@@ -237,7 +376,79 @@ router.post(
             );
 
 
-            res.status(500).json({
+            /* -------------------------
+               CLEANUP AUDIO
+            ------------------------- */
+
+            try {
+
+                if (uploadedAudioKey) {
+
+                    await s3.send(
+
+                        new DeleteObjectCommand({
+
+                            Bucket:
+                                B2_BUCKET,
+
+                            Key:
+                                uploadedAudioKey
+
+                        })
+
+                    );
+
+                }
+
+            }
+
+            catch (cleanupError) {
+
+                console.error(
+                    "Audio cleanup error:",
+                    cleanupError
+                );
+
+            }
+
+
+            /* -------------------------
+               CLEANUP COVER
+            ------------------------- */
+
+            try {
+
+                if (uploadedCoverKey) {
+
+                    await s3.send(
+
+                        new DeleteObjectCommand({
+
+                            Bucket:
+                                B2_BUCKET,
+
+                            Key:
+                                uploadedCoverKey
+
+                        })
+
+                    );
+
+                }
+
+            }
+
+            catch (cleanupError) {
+
+                console.error(
+                    "Cover cleanup error:",
+                    cleanupError
+                );
+
+            }
+
+
+            return res.status(500).json({
 
                 message:
                     "Song upload failed",
@@ -259,24 +470,151 @@ router.post(
 ========================================================= */
 
 router.get(
+
     "/",
+
     async (req, res) => {
 
         try {
 
             const songs =
                 await Song.find()
+
                     .populate(
                         "uploadedBy",
                         "username"
                     )
+
                     .sort({
                         createdAt: -1
                     });
 
 
-            res.json(
-                songs
+            console.log(
+                "Songs found:",
+                songs.length
+            );
+
+
+            /* =================================================
+               GENERATE SIGNED URLS
+            ================================================= */
+
+            const songsWithUrls =
+                await Promise.all(
+
+                    songs.map(
+
+                        async (song) => {
+
+                            const songObject =
+                                song.toObject();
+
+
+                            /* -------------------------
+                               DEBUG
+                            ------------------------- */
+
+                            console.log(
+                                "B2 DEBUG:",
+                                {
+                                    bucket:
+                                        B2_BUCKET,
+
+                                    audioKey:
+                                        songObject.audioUrl,
+
+                                    coverKey:
+                                        songObject.coverUrl
+                                }
+                            );
+
+
+                            /* -------------------------
+                               AUDIO
+                            ------------------------- */
+
+                            if (
+                                songObject.audioUrl
+                            ) {
+
+                                const audioCommand =
+                                    new GetObjectCommand({
+
+                                        Bucket:
+                                            B2_BUCKET,
+
+                                        Key:
+                                            songObject.audioUrl
+
+                                    });
+
+
+                                songObject.audioUrl =
+                                    await getSignedUrl(
+
+                                        s3,
+
+                                        audioCommand,
+
+                                        {
+                                            expiresIn:
+                                                60 * 60
+                                        }
+
+                                    );
+
+                            }
+
+
+                            /* -------------------------
+                               COVER
+                            ------------------------- */
+
+                            if (
+                                songObject.coverUrl
+                            ) {
+
+                                const coverCommand =
+                                    new GetObjectCommand({
+
+                                        Bucket:
+                                            B2_BUCKET,
+
+                                        Key:
+                                            songObject.coverUrl
+
+                                    });
+
+
+                                songObject.coverUrl =
+                                    await getSignedUrl(
+
+                                        s3,
+
+                                        coverCommand,
+
+                                        {
+                                            expiresIn:
+                                                60 * 60
+                                        }
+
+                                    );
+
+                            }
+
+
+                            return songObject;
+
+                        }
+
+                    )
+
+                );
+
+
+            return res.json(
+                songsWithUrls
             );
 
         }
@@ -290,16 +628,20 @@ router.get(
             );
 
 
-            res.status(500).json({
+            return res.status(500).json({
 
                 message:
-                    "Failed to fetch songs"
+                    "Failed to fetch songs",
+
+                error:
+                    error.message
 
             });
 
         }
 
     }
+
 );
 
 
@@ -308,7 +650,9 @@ router.get(
 ========================================================= */
 
 router.delete(
+
     "/:id",
+
     async (req, res) => {
 
         try {
@@ -348,8 +692,11 @@ router.delete(
 
             const decoded =
                 jwt.verify(
+
                     token,
+
                     process.env.JWT_SECRET
+
                 );
 
 
@@ -430,69 +777,57 @@ router.delete(
 
 
             /* =================================================
-               DELETE AUDIO FILE
+               DELETE AUDIO FROM B2
             ================================================= */
 
             if (song.audioUrl) {
 
-                const audioFileName =
-                    path.basename(
-                        song.audioUrl
-                    );
+                await s3.send(
 
+                    new DeleteObjectCommand({
 
-                const audioPath =
-                    path.join(
-                        songsUploadPath,
-                        audioFileName
-                    );
+                        Bucket:
+                            B2_BUCKET,
 
+                        Key:
+                            song.audioUrl
 
-                if (
-                    fs.existsSync(
-                        audioPath
-                    )
-                ) {
+                    })
 
-                    fs.unlinkSync(
-                        audioPath
-                    );
+                );
 
-                }
+                console.log(
+                    "Deleted audio from B2:",
+                    song.audioUrl
+                );
 
             }
 
 
             /* =================================================
-               DELETE COVER FILE
+               DELETE COVER FROM B2
             ================================================= */
 
             if (song.coverUrl) {
 
-                const coverFileName =
-                    path.basename(
-                        song.coverUrl
-                    );
+                await s3.send(
 
+                    new DeleteObjectCommand({
 
-                const coverPath =
-                    path.join(
-                        coversUploadPath,
-                        coverFileName
-                    );
+                        Bucket:
+                            B2_BUCKET,
 
+                        Key:
+                            song.coverUrl
 
-                if (
-                    fs.existsSync(
-                        coverPath
-                    )
-                ) {
+                    })
 
-                    fs.unlinkSync(
-                        coverPath
-                    );
+                );
 
-                }
+                console.log(
+                    "Deleted cover from B2:",
+                    song.coverUrl
+                );
 
             }
 
@@ -506,7 +841,7 @@ router.delete(
             );
 
 
-            res.json({
+            return res.json({
 
                 message:
                     "Song deleted successfully"
@@ -525,11 +860,13 @@ router.delete(
 
 
             if (
-                error.name ===
-                "JsonWebTokenError" ||
 
                 error.name ===
-                "TokenExpiredError"
+                    "JsonWebTokenError" ||
+
+                error.name ===
+                    "TokenExpiredError"
+
             ) {
 
                 return res.status(401).json({
@@ -542,7 +879,7 @@ router.delete(
             }
 
 
-            res.status(500).json({
+            return res.status(500).json({
 
                 message:
                     "Failed to delete song",
@@ -555,6 +892,7 @@ router.delete(
         }
 
     }
+
 );
 
 

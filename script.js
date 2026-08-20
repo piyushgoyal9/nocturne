@@ -2,8 +2,7 @@
    NOCTURNE - FRONTEND SCRIPT
 ========================================================= */
 
-const API_URL = "https://nocturne-backend-omnp.onrender.com";
-
+const API_URL = "http://localhost:5000";
 
 /* =========================================================
    AUDIO PLAYER ELEMENTS
