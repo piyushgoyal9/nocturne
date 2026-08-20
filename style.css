@@ -20,11 +20,9 @@ body {
 }
 
 .left {
-  
     width: 22vw;
     min-width: 300px;
 }
-
 
 .right {
     width: 75vw;
@@ -82,10 +80,12 @@ body {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
+
     position: absolute;
     bottom: 15px;
     left: 15px;
     right: 15px;
+
     font-size: 11px;
     color: #b3b3b3;
 }
@@ -103,6 +103,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
+
     background-color: #202020;
     padding: 15px 25px;
 }
@@ -124,9 +125,12 @@ body {
 
 .button button {
     padding: 12px 24px;
+
     border: none;
     border-radius: 30px;
+
     cursor: pointer;
+
     font-size: 15px;
     font-weight: bold;
 }
@@ -149,29 +153,33 @@ body {
     transform: scale(1.05);
 }
 
-/* Playlist Section */
-.spotify-playlists {
+/* Nocturne Playlist Section */
+.nocturne-playlists {
     padding: 20px;
 }
 
-.spotify-playlists h1 {
+.nocturne-playlists h1 {
     margin-bottom: 20px;
 }
 
 /* Card Container */
 .cardcontainer {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
     gap: 20px;
 }
 
 /* Card */
 .card {
-    width: 200px;
+    width: 100%;
+
     background-color: #181818;
+
     padding: 15px;
     border-radius: 8px;
+
     cursor: pointer;
+
     transition: 0.3s;
 }
 
@@ -191,16 +199,20 @@ body {
 
 .card p {
     margin-top: 8px;
+
     font-size: 14px;
     color: #b3b3b3;
+
     line-height: 1.4;
 }
+
 /* =========================
    PLAYBAR
 ========================= */
 
 .playbar {
     position: absolute;
+
     bottom: 0;
     left: 0;
 
@@ -219,7 +231,6 @@ body {
     z-index: 10;
 }
 
-
 /* =========================
    SONG INFORMATION
 ========================= */
@@ -237,11 +248,24 @@ body {
     width: 50px;
     height: 50px;
 
-    background-color: #333;
+    flex-shrink: 0;
+
+    margin-right: 12px;
+
     border-radius: 4px;
 
-    flex-shrink: 0;
-    margin-right: 12px;
+    overflow: hidden;
+
+    background-color: #333;
+}
+
+.song-image img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+
+    display: block;
 }
 
 .song-details {
@@ -268,7 +292,6 @@ body {
     text-overflow: ellipsis;
 }
 
-
 /* =========================
    CENTER PLAYER
 ========================= */
@@ -281,7 +304,6 @@ body {
     flex-direction: column;
     align-items: center;
 }
-
 
 /* =========================
    PLAYER BUTTONS
@@ -297,8 +319,7 @@ body {
     margin-bottom: 4px;
 }
 
-
-/* All buttons */
+/* All Buttons */
 
 .player-buttons button {
     width: 28px;
@@ -324,7 +345,6 @@ body {
         opacity 0.15s ease;
 }
 
-
 /* Hover */
 
 .player-buttons button:hover {
@@ -332,9 +352,8 @@ body {
     transform: scale(1.12);
 }
 
-
 /* =========================
-   SHUFFLE + REPEAT SVG
+   SHUFFLE + REPEAT
 ========================= */
 
 .player-buttons button img {
@@ -348,7 +367,6 @@ body {
     filter: invert(1);
 }
 
-
 /* Active Shuffle / Repeat */
 
 .player-buttons button.active img {
@@ -361,7 +379,6 @@ body {
 
     transform: scale(1.15);
 }
-
 
 /* =========================
    PROGRESS
@@ -391,7 +408,6 @@ body {
     cursor: pointer;
 }
 
-
 /* =========================
    VOLUME
 ========================= */
@@ -412,7 +428,6 @@ body {
     cursor: pointer;
 }
 
-
 /* =========================
    ACTIVE CARD
 ========================= */
@@ -423,27 +438,274 @@ body {
     border: 1px solid #555;
 }
 
-
 /* =========================
    PLAYLIST SPACE
 ========================= */
 
-.spotify-playlists {
+.nocturne-playlists {
     padding-bottom: 110px;
 }
-.song-image {
-    width: 50px;
-    height: 50px;
-    flex-shrink: 0;
-    margin-right: 12px;
-    border-radius: 4px;
-    overflow: hidden;
-    background-color: #333;
+
+/* =========================
+   SEARCH
+========================= */
+
+.hidden {
+    display: none !important;
 }
 
-.song-image img {
+.search-container {
+    margin: 15px 0 25px 0;
+}
+
+.search-container input {
+    width: 350px;
+
+    padding: 12px 18px;
+
+    background-color: #242424;
+    color: white;
+
+    border: 1px solid #444;
+    border-radius: 25px;
+
+    outline: none;
+
+    font-size: 15px;
+
+    transition: 0.2s ease;
+}
+
+.search-container input::placeholder {
+    color: #aaa;
+}
+
+.search-container input:focus {
+    border-color: white;
+    background-color: #2a2a2a;
+}
+@media (max-width: 768px) {
+
+    .left {
+        display: none;
+    }
+
+    .right {
+        width: 100vw;
+        margin: 0;
+        border-radius: 0;
+        min-height: 100vh;
+    }
+
+    .cardcontainer {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    }
+
+    .card {
+        padding: 10px;
+    }
+
+    .card h2 {
+        font-size: 15px;
+    }
+
+    .card p {
+        font-size: 12px;
+    }
+
+    /* =========================
+       MOBILE PLAYBAR
+    ========================= */
+
+    .playbar {
+        height: 70px;
+        padding: 8px 10px;
+    }
+
+    .song-info {
+        width: 32%;
+        min-width: 0;
+    }
+
+    .song-image {
+        width: 42px;
+        height: 42px;
+        margin-right: 7px;
+    }
+
+    .song-name {
+        font-size: 12px;
+    }
+
+    .song-artist {
+        font-size: 10px;
+        margin-top: 3px;
+    }
+
+    .player {
+        width: 58%;
+    }
+
+    .player-buttons {
+        gap: 8px;
+        margin-bottom: 3px;
+    }
+
+    .player-buttons button {
+        width: 22px;
+        height: 22px;
+    }
+
+    .player-buttons button img {
+        width: 15px;
+        height: 15px;
+    }
+
+    .progress-container {
+        gap: 5px;
+    }
+
+    .progress-container span {
+        font-size: 9px;
+    }
+
+    .volume {
+        display: none;
+    }
+}
+/* =========================
+   AUTH MODAL
+========================= */
+
+.auth-modal {
+    position: fixed;
+    inset: 0;
+
+    background-color: rgba(0, 0, 0, 0.75);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    z-index: 100;
+}
+
+.auth-box {
+    position: relative;
+
+    width: 400px;
+    max-width: 90%;
+
+    padding: 35px;
+
+    background-color: #181818;
+    border-radius: 12px;
+
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+}
+
+.auth-box h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.auth-box > div > p {
+    color: #b3b3b3;
+    font-size: 14px;
+    margin-bottom: 25px;
+}
+
+.auth-box input {
     width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
+
+    padding: 13px 15px;
+    margin-bottom: 12px;
+
+    background-color: #242424;
+    color: white;
+
+    border: 1px solid #444;
+    border-radius: 6px;
+
+    outline: none;
+
+    font-size: 14px;
+}
+
+.auth-box input:focus {
+    border-color: white;
+}
+
+.auth-box input::placeholder {
+    color: #999;
+}
+
+.auth-submit {
+    width: 100%;
+
+    padding: 13px;
+
+    margin-top: 8px;
+
+    border: none;
+    border-radius: 25px;
+
+    background-color: white;
+    color: black;
+
+    font-size: 15px;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition: 0.2s ease;
+}
+
+.auth-submit:hover {
+    transform: scale(1.02);
+}
+
+.close-auth {
+    position: absolute;
+
+    top: 15px;
+    right: 15px;
+
+    background: transparent;
+    border: none;
+
+    color: #aaa;
+
+    font-size: 20px;
+
+    cursor: pointer;
+}
+
+.close-auth:hover {
+    color: white;
+}
+
+.auth-switch {
+    text-align: center;
+    margin-top: 20px;
+
+    color: #aaa;
+    font-size: 13px;
+}
+
+.auth-switch span {
+    color: white;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.auth-switch span:hover {
+    text-decoration: underline;
+}
+.welcome-user {
+    color: white;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
 }
