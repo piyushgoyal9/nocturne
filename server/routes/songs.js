@@ -184,11 +184,9 @@ async function authorizeB2() {
 
     }
 
-
     console.log(
         "Authorizing with Backblaze B2..."
     );
-
 
     const authString =
         Buffer
@@ -197,28 +195,18 @@ async function authorizeB2() {
             )
             .toString("base64");
 
-
     const response =
         await fetch(
-
             "https://api.backblazeb2.com/b2api/v3/b2_authorize_account",
-
             {
-
-                method:
-                    "GET",
+                method: "GET",
 
                 headers: {
-
                     Authorization:
                         `Basic ${authString}`
-
                 }
-
             }
-
         );
-
 
     if (!response.ok) {
 
@@ -231,10 +219,13 @@ async function authorizeB2() {
 
     }
 
-
     const data =
         await response.json();
 
+    /* =====================================================
+       IMPORTANT:
+       B2 returns these inside apiInfo.storageApi
+    ===================================================== */
 
     b2Auth = {
 
@@ -242,10 +233,13 @@ async function authorizeB2() {
             data.authorizationToken,
 
         apiUrl:
-            data.apiUrl,
+            data.apiInfo.storageApi.apiUrl,
 
         downloadUrl:
-            data.downloadUrl,
+            data.apiInfo.storageApi.downloadUrl,
+
+        s3ApiUrl:
+            data.apiInfo.storageApi.s3ApiUrl,
 
         expiresAt:
             Date.now() +
@@ -253,17 +247,17 @@ async function authorizeB2() {
 
     };
 
-
     console.log(
         "B2 authorization successful"
     );
 
+    console.log(
+        "B2 API URL:",
+        b2Auth.apiUrl
+    );
 
     return b2Auth;
-
 }
-
-
 /* =========================================================
    GET B2 UPLOAD URL
 ========================================================= */
