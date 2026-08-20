@@ -69,23 +69,18 @@ if (!B2_APPLICATION_KEY) {
 ========================================================= */
 
 const s3 = new S3Client({
-
     region: "us-east-005",
 
     endpoint: B2_ENDPOINT,
 
     credentials: {
+        accessKeyId: B2_KEY_ID,
+        secretAccessKey: B2_APPLICATION_KEY
+    },
 
-        accessKeyId:
-            B2_KEY_ID,
-
-        secretAccessKey:
-            B2_APPLICATION_KEY
-
-    }
-
+    requestChecksumCalculation: "WHEN_REQUIRED",
+    responseChecksumValidation: "WHEN_REQUIRED"
 });
-
 
 /* =========================================================
    MULTER
