@@ -89,7 +89,6 @@ const s3 = new S3Client({
 
 /* =========================================================
    MULTER
-   Store files temporarily in memory.
 ========================================================= */
 
 const upload = multer({
@@ -223,6 +222,52 @@ router.post(
 
 
             /* =================================================
+               DEBUG FILE INFORMATION
+            ================================================= */
+
+            console.log("AUDIO DEBUG:", {
+
+                originalName:
+                    audioFile.originalname,
+
+                mimetype:
+                    audioFile.mimetype,
+
+                size:
+                    audioFile.size,
+
+                bufferLength:
+                    audioFile.buffer
+                        ? audioFile.buffer.length
+                        : 0
+
+            });
+
+
+            if (coverFile) {
+
+                console.log("COVER DEBUG:", {
+
+                    originalName:
+                        coverFile.originalname,
+
+                    mimetype:
+                        coverFile.mimetype,
+
+                    size:
+                        coverFile.size,
+
+                    bufferLength:
+                        coverFile.buffer
+                            ? coverFile.buffer.length
+                            : 0
+
+                });
+
+            }
+
+
+            /* =================================================
                GENERATE B2 KEYS
             ================================================= */
 
@@ -258,6 +303,9 @@ router.post(
 
                     Body:
                         audioFile.buffer,
+
+                    ContentLength:
+                        audioFile.size,
 
                     ContentType:
                         audioFile.mimetype
@@ -300,6 +348,9 @@ router.post(
 
                         Body:
                             coverFile.buffer,
+
+                        ContentLength:
+                            coverFile.size,
 
                         ContentType:
                             coverFile.mimetype
@@ -510,10 +561,6 @@ router.get(
                             const songObject =
                                 song.toObject();
 
-
-                            /* -------------------------
-                               DEBUG
-                            ------------------------- */
 
                             console.log(
                                 "B2 DEBUG:",
