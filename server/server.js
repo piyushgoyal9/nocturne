@@ -28,7 +28,9 @@ app.use("/api/auth", authRoutes);
 app.use("/api/songs", songRoutes);
 app.use(
     "/uploads",
-    express.static("server/uploads")
+    express.static(
+        path.join(__dirname, "uploads")
+    )
 );
 
 /* =========================
