@@ -28,6 +28,11 @@ console.log(
 );
 
 console.log(
+    "GOOGLE_CLIENT_ID loaded:",
+    !!process.env.GOOGLE_CLIENT_ID
+);
+
+console.log(
     "B2_ENDPOINT loaded:",
     !!process.env.B2_ENDPOINT
 );
@@ -109,6 +114,8 @@ mongoose
         );
 
     });
+
+    
 
 
 /* =========================

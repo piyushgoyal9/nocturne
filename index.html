@@ -4,7 +4,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Nocturne</title>
 
     <link rel="stylesheet" href="style.css">
@@ -15,805 +14,379 @@
 
     <div class="container flex bg-black">
 
-        <!-- =========================
-             LEFT SECTION
-        ========================== -->
-
+        <!-- LEFT SECTION -->
         <div class="left">
 
-            <!-- Home -->
             <div class="home bg-grey rounded m-1 p-1">
-
                 <ul>
-
                     <li id="home-button">
-                        <img
-                            class="invert"
-                            src="img/home.svg"
-                            alt="Home"
-                        >
+                        <img class="invert" src="img/home.svg" alt="Home">
                         Home
                     </li>
 
                     <li id="search-button">
-                        <img
-                            class="invert"
-                            src="img/search.svg"
-                            alt="Search"
-                        >
+                        <img class="invert" src="img/search.svg" alt="Search">
                         Search
                     </li>
-
                 </ul>
-
             </div>
 
-
-            <!-- Library -->
             <div class="library bg-grey rounded p-1">
-
                 <div class="heading">
-
-                    <img
-                        class="invert"
-                        src="img/playlist.svg"
-                        alt="Library"
-                    >
-
+                    <img class="invert" src="img/playlist.svg" alt="Library">
                     <h2>Your Library</h2>
-
                 </div>
 
-
-                <!-- Footer -->
                 <div class="footer">
-
-                    <div>
-                        <span>Legal</span>
-                    </div>
-
-                    <div>
-                        <span>Privacy Policy</span>
-                    </div>
-
-                    <div>
-                        <span>Cookies</span>
-                    </div>
-
-                    <div>
-                        <span>About Ads</span>
-                    </div>
-
-                    <div>
-                        <span>Accessibility</span>
-                    </div>
-
+                    <div><span>Legal</span></div>
+                    <div><span>Privacy Policy</span></div>
+                    <div><span>Cookies</span></div>
+                    <div><span>About Ads</span></div>
+                    <div><span>Accessibility</span></div>
                 </div>
-
             </div>
 
         </div>
 
-
-        <!-- =========================
-             RIGHT SECTION
-        ========================== -->
-
+        <!-- RIGHT SECTION -->
         <div class="right bg-grey rounded">
 
-
-            <!-- =========================
-                 HEADER
-            ========================== -->
-
+            <!-- HEADER -->
             <div class="header">
 
-                <!-- Navigation -->
                 <div class="nav">
-
-                    <!-- Previous -->
-                    <svg
-                        class="invert"
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                        width="24"
-                        height="24"
-                        fill="none"
-                    >
-
-                        <path
-                            d="M15 6C15 6 9 10.4189 9 12C9 13.5812 15 18 15 18"
-                            stroke="currentColor"
-                            stroke-width="1.5"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                        />
-
+                    <svg class="invert" xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24" width="24" height="24" fill="none">
+                        <path d="M15 6C15 6 9 10.4189 9 12C9 13.5812 15 18 15 18"
+                            stroke="currentColor" stroke-width="1.5"
+                            stroke-linecap="round" stroke-linejoin="round" />
                     </svg>
 
-
-                    <!-- Next -->
-                    <svg
-                        class="invert"
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                        width="24"
-                        height="24"
-                        fill="none"
-                    >
-
-                        <path
-                            d="M9 6C9 6 15 10.4189 15 12C15 13.5812 9 18 9 18"
-                            stroke="currentColor"
-                            stroke-width="1.5"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                        />
-
+                    <svg class="invert" xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24" width="24" height="24" fill="none">
+                        <path d="M9 6C9 6 15 10.4189 15 12C15 13.5812 9 18 9 18"
+                            stroke="currentColor" stroke-width="1.5"
+                            stroke-linecap="round" stroke-linejoin="round" />
                     </svg>
-
                 </div>
 
+                <!-- AUTHENTICATION BUTTONS -->
+                <div class="button" id="auth-buttons">
 
-                <!-- Authentication Buttons -->
-                <div
-                    class="button"
-                    id="auth-buttons"
-                >
+                    <span id="logged-in-user" class="hidden"></span>
 
-                    <button id="upload-song-button">
+                    <button id="upload-song-button" type="button">
                         Upload Song
                     </button>
 
-                    <button
-                        type="button"
-                        id="signup-button"
-                    >
+                    <button type="button" id="signup-button">
                         Sign Up
                     </button>
 
-                    <button
-                        type="button"
-                        id="login-button"
-                    >
+                    <button type="button" id="login-button">
                         Log In
+                    </button>
+
+                    <button type="button" id="logout-button" class="hidden">
+                        Log Out
                     </button>
 
                 </div>
 
             </div>
 
-
-            <!-- =========================
-                 PLAYLISTS
-            ========================== -->
-
+            <!-- PLAYLISTS -->
             <div class="nocturne-playlists">
 
                 <h1>Nocturne Playlists</h1>
 
-
-                <!-- Search -->
-                <div
-                    id="search-container"
-                    class="search-container hidden"
-                >
-
-                    <input
-                        type="text"
-                        id="search-input"
-                        placeholder="Search songs..."
-                    >
-
+                <div id="search-container" class="search-container hidden">
+                    <input type="text" id="search-input"
+                        placeholder="Search songs...">
                 </div>
 
-
-                <!-- =========================
-                     ORIGINAL SONGS
-                ========================== -->
-
+                <!-- ORIGINAL SONGS -->
                 <div class="cardcontainer">
 
-
-                    <!-- Card 1 -->
-                    <div
-                        class="card"
+                    <div class="card"
                         data-song="songs/song1.mp3"
                         data-title="I hate you , I love you"
-                        data-artist="Olivia o'Brien"
-                    >
+                        data-artist="Olivia o'Brien">
 
-                        <img
-                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQs_nOZXACIL8P7NEsmtAtl0kh3ZGJ3mVOphJYAsnmB0oK_Nb7oTM6k0j8&s=10"
-                            alt="I hate you , I love you"
-                        >
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQs_nOZXACIL8P7NEsmtAtl0kh3ZGJ3mVOphJYAsnmB0oK_Nb7oTM6k0j8&s=10"
+                            alt="I hate you , I love you">
 
                         <h2>I hate you , I love you</h2>
-
-                        <p>
-                            The first english song i ever listened to
-                        </p>
-
+                        <p>The first english song i ever listened to</p>
                     </div>
 
-
-                    <!-- Card 2 -->
-                    <div
-                        class="card"
+                    <div class="card"
                         data-song="songs/song2.mp3"
                         data-title="Baby"
-                        data-artist="justin bieber"
-                    >
+                        data-artist="justin bieber">
 
-                        <img
-                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSrhI6bC_GuYL0EZRkPnLMmo3NGsaNLODsxEAuk0YHrKg&s"
-                            alt="Baby"
-                        >
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSrhI6bC_GuYL0EZRkPnLMmo3NGsaNLODsxEAuk0YHrKg&s"
+                            alt="Baby">
 
                         <h2>Baby</h2>
-
-                        <p>
-                            One of fav 2019 songs
-                        </p>
-
+                        <p>One of fav 2019 songs</p>
                     </div>
 
-
-                    <!-- Card 3 -->
-                    <div
-                        class="card"
+                    <div class="card"
                         data-song="songs/song3.mp3"
                         data-title="Tell your friends"
-                        data-artist="Weeknd"
-                    >
+                        data-artist="Weeknd">
 
-                        <img
-                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRn1Q3Ifnr4Or12_NuY23-b-c5h1A4zCNsU0HaGy0UaJA&s"
-                            alt="Tell your friends"
-                        >
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRn1Q3Ifnr4Or12_NuY23-b-c5h1A4zCNsU0HaGy0UaJA&s"
+                            alt="Tell your friends">
 
                         <h2>Tell your friends</h2>
-
-                        <p>
-                            W song
-                        </p>
-
+                        <p>W song</p>
                     </div>
 
-
-                    <!-- Card 4 -->
-                    <div
-                        class="card"
+                    <div class="card"
                         data-song="songs/song4.mp3"
                         data-title="Im good"
-                        data-artist="Lil Wayne"
-                    >
+                        data-artist="Lil Wayne">
 
-                        <img
-                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS750aYOP36lXzRezI859jCRmif3XLZkAipRCTH8PkP9g&s=10"
-                            alt="Im good"
-                        >
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS750aYOP36lXzRezI859jCRmif3XLZkAipRCTH8PkP9g&s=10"
+                            alt="Im good">
 
                         <h2>Im good</h2>
-
-                        <p>
-                            Nice song
-                        </p>
-
+                        <p>Nice song</p>
                     </div>
 
                 </div>
 
-
-                <!-- =========================
-                     PLAYBOY ENERGY
-                ========================== -->
-
+                <!-- PLAYBOY ENERGY -->
                 <div class="playboy-section">
 
                     <h1></h1>
 
-
-
                     <div class="cardcontainer">
 
-
-                        <!-- Often -->
-                        <div
-                            class="card"
-                            data-song="songs\often.mp3"
+                        <div class="card"
+                            data-song="songs/often.mp3"
                             data-title="Often"
-                            data-artist="The Weeknd"
-                        >
+                            data-artist="The Weeknd">
 
-                            <img
-                                src="https://i1.sndcdn.com/artworks-XeXYhXz2zooM-0-t1080x1080.jpg"
-                                alt="Often - The Weeknd"
-                            >
+                            <img src="https://i1.sndcdn.com/artworks-XeXYhXz2zooM-0-t1080x1080.jpg"
+                                alt="Often - The Weeknd">
 
                             <h2>Often</h2>
-
-                            <p>
-                                The Weeknd
-                            </p>
-
+                            <p>The Weeknd</p>
                         </div>
 
-
-                        <!-- Reminder -->
-                        <div
-                            class="card"
-                            data-song="songs\reminder.mp3"
+                        <div class="card"
+                            data-song="songs/reminder.mp3"
                             data-title="Reminder"
-                            data-artist="The Weeknd"
-                        >
+                            data-artist="The Weeknd">
 
-                            <img
-                                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRS4q5n-wUZ15Zg3_NF2YBZe4zH6IcKGD1dKvrIrnPZ3Q&s=10"
-                                alt="Reminder - The Weeknd"
-                            >
+                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRS4q5n-wUZ15Zg3_NF2YBZe4zH6IcKGD1dKvrIrnPZ3Q&s=10"
+                                alt="Reminder - The Weeknd">
 
                             <h2>Reminder</h2>
-
-                            <p>
-                                The Weeknd 
-                            </p>
-
+                            <p>The Weeknd</p>
                         </div>
 
-
-                        <!-- Starboy -->
-                        <div
-                            class="card"
-                            data-song="songs\starboy.mp3"
+                        <div class="card"
+                            data-song="songs/starboy.mp3"
                             data-title="Starboy"
-                            data-artist="The Weeknd"
-                        >
+                            data-artist="The Weeknd">
 
-                            <img
-                                src="https://images.thalia.media/07/-/1b41020afc3f489ebb8ac35c1af0a2b6/starboy-cd.jpeg"
-                                alt="Starboy - The Weeknd"
-                            >
+                            <img src="https://images.thalia.media/07/-/1b41020afc3f489ebb8ac35c1af0a2b6/starboy-cd.jpeg"
+                                alt="Starboy - The Weeknd">
 
                             <h2>Starboy</h2>
-
-                            <p>
-                                The Weeknd
-                            </p>
-
+                            <p>The Weeknd</p>
                         </div>
 
-
-                        <!-- Into It -->
-                        <div
-                            class="card"
-                            data-song="songs\Bass_Prod._by_LENIVECC_-_Chase_Atlantic_-_Into_It_(mp3.pm).mp3"
+                        <div class="card"
+                            data-song="songs/Bass_Prod._by_LENIVECC_-_Chase_Atlantic_-_Into_It_(mp3.pm).mp3"
                             data-title="Into It"
-                            data-artist="Chase Atlantic"
-                        >
+                            data-artist="Chase Atlantic">
 
-                            <img
-                                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ6b5zn4nm1KW3mG1_u9KOwWUKcDvya3C907BFOSRL3cg&s=10"
-                                alt="Into It - Chase Atlantic"
-                            >
+                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ6b5zn4nm1KW3mG1_u9KOwWUKcDvya3C907BFOSRL3cg&s=10"
+                                alt="Into It - Chase Atlantic">
 
                             <h2>Into It</h2>
-
-                            <p>
-                                Chase Atlantic 
-                            </p>
-
+                            <p>Chase Atlantic</p>
                         </div>
 
                     </div>
-
                 </div>
 
             </div>
 
-
-            <!-- =========================
-                 PLAYBAR
-            ========================== -->
-
+            <!-- PLAYBAR -->
             <div class="playbar hidden">
 
-
-                <!-- Song Information -->
                 <div class="song-info">
 
                     <div class="song-image">
-
-                        <img
-                            id="song-image"
-                            src=""
-                            alt="Song"
-                        >
-
+                        <img id="song-image" src="" alt="Song">
                     </div>
 
-
-                    <div
-                        id="song-details"
-                        class="song-details"
-                    >
-
-                        <div
-                            id="song-name"
-                            class="song-name"
-                        >
-                            Nocturne
-                        </div>
-
-                        <div
-                            id="song-artist"
-                            class="song-artist"
-                        >
-                            Unknown Artist
-                        </div>
-
+                    <div id="song-details" class="song-details">
+                        <div id="song-name" class="song-name">Nocturne</div>
+                        <div id="song-artist" class="song-artist">Unknown Artist</div>
                     </div>
 
                 </div>
 
-
-                <!-- Player -->
                 <div class="player">
 
                     <div class="player-buttons">
 
-                        <button
-                            type="button"
-                            id="shuffle"
-                        >
-
-                            <img
-                                src="img/shuffle.svg"
-                                alt="Shuffle"
-                            >
-
+                        <button type="button" id="shuffle">
+                            <img src="img/shuffle.svg" alt="Shuffle">
                         </button>
 
-
-                        <button
-                            type="button"
-                            id="previous"
-                        >
-
-                            <img
-                                src="img/angle-double-left.svg"
-                                alt="Previous"
-                            >
-
+                        <button type="button" id="previous">
+                            <img src="img/angle-double-left.svg" alt="Previous">
                         </button>
 
-
-                        <button
-                            type="button"
-                            id="play"
-                        >
-
-                            <img
-                                id="play-icon"
-                                src="img/play-pause.svg"
-                                alt="Play"
-                            >
-
+                        <button type="button" id="play">
+                            <img id="play-icon" src="img/play-pause.svg" alt="Play">
                         </button>
 
-
-                        <button
-                            type="button"
-                            id="next"
-                        >
-
-                            <img
-                                src="img/angle-double-right.svg"
-                                alt="Next"
-                            >
-
+                        <button type="button" id="next">
+                            <img src="img/angle-double-right.svg" alt="Next">
                         </button>
 
-
-                        <button
-                            type="button"
-                            id="repeat"
-                        >
-
-                            <img
-                                src="img/arrows-repeat.svg"
-                                alt="Repeat"
-                            >
-
+                        <button type="button" id="repeat">
+                            <img src="img/arrows-repeat.svg" alt="Repeat">
                         </button>
 
                     </div>
 
-
-                    <!-- Progress -->
                     <div class="progress-container">
+                        <span id="current-time">0:00</span>
 
-                        <span id="current-time">
-                            0:00
-                        </span>
+                        <input id="progress" type="range"
+                            min="0" max="100" value="0">
 
-                        <input
-                            id="progress"
-                            type="range"
-                            min="0"
-                            max="100"
-                            value="0"
-                        >
-
-                        <span id="duration">
-                            0:00
-                        </span>
-
+                        <span id="duration">0:00</span>
                     </div>
 
                 </div>
 
-
-                <!-- Volume -->
                 <div class="volume">
-
                     <span>🔊</span>
 
-                    <input
-                        id="volume"
-                        type="range"
-                        min="0"
-                        max="100"
-                        value="100"
-                    >
-
+                    <input id="volume" type="range"
+                        min="0" max="100" value="100">
                 </div>
 
             </div>
 
         </div>
-
     </div>
 
-
-    <!-- =========================
-         AUTH MODAL
-    ========================== -->
-
-    <div
-        id="auth-modal"
-        class="auth-modal hidden"
-    >
+    <!-- SIGN UP / LOGIN MODAL -->
+    <div id="auth-modal" class="auth-modal hidden">
 
         <div class="auth-box">
 
-
-            <!-- Close -->
-            <button
-                type="button"
-                id="close-auth"
-                class="close-auth"
-            >
+            <button type="button" id="close-auth" class="close-auth">
                 ✕
             </button>
 
-
-            <!-- =========================
-                 SIGNUP
-            ========================== -->
-
+            <!-- SIGN UP -->
             <form id="signup-form">
 
-                <h2>
-                    Create your Nocturne account
-                </h2>
+                <h2>Create your Nocturne account</h2>
+                <p>Join Nocturne and start listening.</p>
 
-                <p>
-                    Join Nocturne and start listening.
-                </p>
+                <input type="text" id="signup-username"
+                    placeholder="Username" required>
 
+                <input type="email" id="signup-email"
+                    placeholder="Email" required>
 
-                <input
-                    type="text"
-                    id="signup-username"
-                    placeholder="Username"
-                    required
-                >
+                <input type="password" id="signup-password"
+                    placeholder="Password" required>
 
-
-                <input
-                    type="email"
-                    id="signup-email"
-                    placeholder="Email"
-                    required
-                >
-
-
-                <input
-                    type="password"
-                    id="signup-password"
-                    placeholder="Password"
-                    required
-                >
-
-
-                <button
-                    type="submit"
-                    id="signup-submit"
-                    class="auth-submit"
-                >
+                <button type="submit" id="signup-submit" class="auth-submit">
                     Sign Up
                 </button>
 
-
                 <p class="auth-switch">
-
                     Already have an account?
-
-                    <span id="show-login">
-                        Log In
-                    </span>
-
+                    <span id="show-login">Log In</span>
                 </p>
 
             </form>
 
+            <!-- LOGIN -->
+            <form id="login-form" class="hidden">
 
-            <!-- =========================
-                 LOGIN
-            ========================== -->
+                <h2>Welcome back</h2>
+                <p>Log in to continue listening.</p>
 
-            <form
-                id="login-form"
-                class="hidden"
-            >
+                <input type="email" id="login-email"
+                    placeholder="Email" required>
 
-                <h2>
-                    Welcome back
-                </h2>
+                <input type="password" id="login-password"
+                    placeholder="Password" required>
 
-                <p>
-                    Log in to continue listening.
-                </p>
-
-
-                <input
-                    type="email"
-                    id="login-email"
-                    placeholder="Email"
-                    required
-                >
-
-
-                <input
-                    type="password"
-                    id="login-password"
-                    placeholder="Password"
-                    required
-                >
-
-
-                <button
-                    type="submit"
-                    id="login-submit"
-                    class="auth-submit"
-                >
+                <button type="submit" id="login-submit" class="auth-submit">
                     Log In
                 </button>
 
-
                 <p class="auth-switch">
-
                     Don't have an account?
-
-                    <span id="show-signup">
-                        Sign Up
-                    </span>
-
+                    <span id="show-signup">Sign Up</span>
                 </p>
 
             </form>
 
         </div>
-
     </div>
 
-
-    <!-- =========================
-         UPLOAD SONG MODAL
-    ========================== -->
-
-    <div
-        id="upload-modal"
-        class="auth-modal hidden"
-    >
+    <!-- UPLOAD SONG MODAL -->
+    <div id="upload-modal" class="auth-modal hidden">
 
         <div class="auth-box">
 
-            <!-- Close -->
-            <button
-                type="button"
-                id="close-upload"
-                class="close-auth"
-            >
+            <button type="button" id="close-upload" class="close-auth">
                 ✕
             </button>
 
-
             <form id="upload-form">
 
-                <h2>
-                    Upload to Nocturne
-                </h2>
+                <h2>Upload to Nocturne</h2>
+                <p>Share your music with everyone.</p>
 
-                <p>
-                    Share your music with everyone.
-                </p>
+                <input type="text" id="upload-title"
+                    placeholder="Song title" required>
 
+                <input type="text" id="upload-artist"
+                    placeholder="Artist" required>
 
-                <input
-                    type="text"
-                    id="upload-title"
-                    placeholder="Song title"
-                    required
-                >
+                <label for="upload-audio">Audio file</label>
+                <input type="file" id="upload-audio"
+                    accept="audio/*" required>
 
+                <label for="upload-cover">Cover image</label>
+                <input type="file" id="upload-cover"
+                    accept="image/*">
 
-                <input
-                    type="text"
-                    id="upload-artist"
-                    placeholder="Artist"
-                    required
-                >
-
-
-                <label for="upload-audio">
-                    Audio file
-                </label>
-
-                <input
-                    type="file"
-                    id="upload-audio"
-                    accept="audio/*"
-                    required
-                >
-
-
-                <label for="upload-cover">
-                    Cover image
-                </label>
-
-                <input
-                    type="file"
-                    id="upload-cover"
-                    accept="image/*"
-                >
-
-
-                <button
-                    type="submit"
-                    class="auth-submit"
-                >
+                <button type="submit" class="auth-submit">
                     Upload Song
                 </button>
-
 
                 <p id="upload-message"></p>
 
             </form>
-
         </div>
-
     </div>
 
-
-    <!-- Audio -->
+    <!-- AUDIO -->
     <audio id="audio"></audio>
 
-
-    <!-- Main JavaScript -->
+    <!-- MAIN JAVASCRIPT -->
     <script src="script.js"></script>
 
 </body>
-
 </html>

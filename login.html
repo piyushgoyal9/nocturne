@@ -1,67 +1,136 @@
 <!DOCTYPE html>
+
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Login - Nocturne</title>
+<meta charset="UTF-8">
 
-    <link rel="stylesheet" href="auth.css">
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>Login - Nocturne</title>
+
+<link
+    rel="stylesheet"
+    href="auth.css"
+>
+
+<!-- Google Identity Services -->
+
+<script
+    src="https://accounts.google.com/gsi/client"
+    async
+    defer
+></script>
+
 </head>
 
 <body>
 
-    <div class="auth-container">
+<div class="auth-container">
 
-        <div class="auth-box">
+    <div class="auth-box">
 
-            <h1>Nocturne</h1>
+        <h1>Nocturne</h1>
 
-            <h2>Welcome back</h2>
+        <h2>Welcome back</h2>
 
-            <p class="subtitle">
-                Log in to continue listening.
-            </p>
+        <p class="subtitle">
+            Log in to continue listening.
+        </p>
 
-            <form id="login-form">
 
-                <label for="email">Email</label>
+        <!-- NORMAL LOGIN -->
 
-                <input
-                    type="email"
-                    id="email"
-                    placeholder="Enter your email"
-                    required
-                >
+        <form id="login-form">
 
-                <label for="password">Password</label>
+            <label for="email">
+                Email
+            </label>
 
-                <input
-                    type="password"
-                    id="password"
-                    placeholder="Enter your password"
-                    required
-                >
+            <input
+                type="email"
+                id="email"
+                placeholder="Enter your email"
+                required
+            >
 
-                <button type="submit">
-                    Log In
-                </button>
 
-            </form>
+            <label for="password">
+                Password
+            </label>
 
-            <p id="message"></p>
+            <input
+                type="password"
+                id="password"
+                placeholder="Enter your password"
+                required
+            >
 
-            <p class="switch-auth">
-                Don't have an account?
-                <a href="signup.html">Sign up</a>
-            </p>
+
+            <button type="submit">
+                Log In
+            </button>
+
+        </form>
+
+
+        <!-- DIVIDER -->
+
+        <div class="auth-divider">
+
+            <span>
+                OR
+            </span>
 
         </div>
 
+
+        <!-- GOOGLE LOGIN -->
+
+        <div
+            id="g_id_onload"
+            data-client_id="687284331652-tgq1ea8aj5sgnfihek8nbmk4oumkbbep.apps.googleusercontent.com"
+            data-callback="handleGoogleLogin"
+            data-auto_prompt="false"
+        ></div>
+
+
+        <div
+            class="g_id_signin"
+            data-type="standard"
+            data-size="large"
+            data-theme="outline"
+            data-text="continue_with"
+            data-shape="rectangular"
+            data-logo_alignment="left"
+            data-width="300"
+        ></div>
+
+
+        <p id="message"></p>
+
+
+        <p class="switch-auth">
+
+            Don't have an account?
+
+            <a href="signup.html">
+                Sign up
+            </a>
+
+        </p>
+
     </div>
 
-    <script src="login.js"></script>
+</div>
+
+
+<script src="login.js"></script>
+
 
 </body>
 
