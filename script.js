@@ -548,9 +548,7 @@ function handleSongEnded() {
         }
 
     }
-
-
-    loadSong(currentSong);
+        loadSong(currentSong);
 
     playSong();
 
@@ -912,6 +910,8 @@ if (loginButton) {
                 "hidden"
             );
 
+            renderGoogleSignInButton();
+
             if (loginForm) {
                 loginForm.classList.remove(
                     "hidden"
@@ -966,6 +966,8 @@ if (showLogin) {
                 );
             }
 
+            renderGoogleSignInButton();
+
         }
     );
 
@@ -996,6 +998,155 @@ if (showSignup) {
 }
 
 
+/* =========================================================
+   GOOGLE SIGN-IN
+========================================================= */
+
+const GOOGLE_CLIENT_ID =
+    "687284331652-tgq1ea8aj5sgnfihek8nbmk4oumkbbep.apps.googleusercontent.com";
+
+let googleIdentityScriptPromise = null;
+let googleIdentityInitialized = false;
+
+function loadGoogleIdentityServices() {
+    if (window.google?.accounts?.id) {
+        return Promise.resolve();
+    }
+
+    if (googleIdentityScriptPromise) {
+        return googleIdentityScriptPromise;
+    }
+
+    googleIdentityScriptPromise = new Promise((resolve, reject) => {
+        let script = document.querySelector(
+            'script[src="https://accounts.google.com/gsi/client"]'
+        );
+
+        const onLoad = () => {
+            if (window.google?.accounts?.id) {
+                resolve();
+            } else {
+                reject(new Error("Google Identity Services did not initialize."));
+            }
+        };
+
+        const onError = () => {
+            reject(new Error("Could not load Google Identity Services."));
+        };
+
+        if (script) {
+            script.addEventListener("load", onLoad, { once: true });
+            script.addEventListener("error", onError, { once: true });
+
+            if (window.google?.accounts?.id) {
+                resolve();
+            }
+            return;
+        }
+
+        script = document.createElement("script");
+        script.src = "https://accounts.google.com/gsi/client";
+        script.async = true;
+        script.defer = true;
+        script.addEventListener("load", onLoad, { once: true });
+        script.addEventListener("error", onError, { once: true });
+        document.head.appendChild(script);
+    });
+
+    return googleIdentityScriptPromise;
+}
+
+async function renderGoogleSignInButton() {
+    const buttonContainer = document.getElementById("google-button");
+
+    if (!buttonContainer) {
+        console.warn(
+            'Google sign-in container "#google-button" was not found in index.html.'
+        );
+        return;
+    }
+
+    try {
+        await loadGoogleIdentityServices();
+
+        if (!googleIdentityInitialized) {
+            window.google.accounts.id.initialize({
+                client_id: GOOGLE_CLIENT_ID,
+                callback: window.handleGoogleLogin,
+                auto_select: false,
+                cancel_on_tap_outside: true
+            });
+
+            googleIdentityInitialized = true;
+        }
+
+        buttonContainer.innerHTML = "";
+
+        window.google.accounts.id.renderButton(buttonContainer, {
+            type: "standard",
+            theme: "filled_black",
+            size: "large",
+            text: "continue_with",
+            shape: "rectangular",
+            logo_alignment: "left",
+            width: Math.max(
+                220,
+                Math.min(buttonContainer.clientWidth || 320, 400)
+            )
+        });
+    } catch (error) {
+        console.error("Google sign-in button error:", error);
+        buttonContainer.innerHTML =
+            '<p class="google-login-error">Google sign-in could not load. Check your connection and try again.</p>';
+    }
+}
+
+window.handleGoogleLogin = async function (googleResponse) {
+    if (!googleResponse?.credential) {
+        alert("Google did not return a sign-in credential. Please try again.");
+        return;
+    }
+
+    try {
+        const response = await fetch(`${API_URL}/api/auth/google`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                credential: googleResponse.credential
+            })
+        });
+
+        let data;
+        try {
+            data = await response.json();
+        } catch {
+            throw new Error("The server returned an invalid response.");
+        }
+
+        if (!response.ok) {
+            throw new Error(data.message || "Google sign-in failed.");
+        }
+
+        if (!data.token || !data.user) {
+            throw new Error("The server response did not include a token and user.");
+        }
+
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("user", JSON.stringify(data.user));
+
+        if (authModal) {
+            authModal.classList.add("hidden");
+        }
+
+        showLoggedInUser();
+        await refreshUploadedSongs();
+    } catch (error) {
+        console.error("Google login error:", error);
+        alert(error.message || "Unable to sign in with Google. Please try again.");
+    }
+};
 /* =========================================================
    SIGNUP
 ========================================================= */
@@ -1504,8 +1655,6 @@ async function deleteSong(songId, card) {
     }
 
 }
-
-
 /* =========================================================
    CREATE DATABASE SONG CARD
 ========================================================= */
@@ -2056,6 +2205,56 @@ if (uploadForm) {
     );
 
 }
+
+/* =========================================================
+   FORGOT PASSWORD
+========================================================= */
+
+const forgotPasswordLink = document.getElementById("forgot-password-link");
+
+if (forgotPasswordLink) {
+    forgotPasswordLink.addEventListener("click", async (event) => {
+        event.preventDefault();
+
+        const email = prompt("Enter your registered email address:");
+
+        if (!email || !email.trim()) {
+            return;
+        }
+
+        try {
+            const response = await fetch(
+                `${API_URL}/api/auth/forgot-password`,
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        email: email.trim().toLowerCase()
+                    })
+                }
+            );
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                console.error("Forgot password API error:", response.status, data);
+                alert(data.message || "Unable to process your request.");
+                return;
+            }
+
+            alert(
+                data.message ||
+                "If an account exists with that email, password reset instructions will be sent."
+            );
+        } catch (error) {
+            console.error("Forgot password error:", error);
+            alert("Unable to connect to the server. Please try again later.");
+        }
+    });
+}
+
 
 
 /* =========================================================

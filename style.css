@@ -28,7 +28,6 @@ body {
     width: 75vw;
     margin: 10px;
     background-color: #121212;
-
     position: relative;
     min-height: calc(100vh - 20px);
 }
@@ -80,12 +79,10 @@ body {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
-
     position: absolute;
     bottom: 15px;
     left: 15px;
     right: 15px;
-
     font-size: 11px;
     color: #b3b3b3;
 }
@@ -103,7 +100,6 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-
     background-color: #202020;
     padding: 15px 25px;
 }
@@ -117,7 +113,7 @@ body {
     cursor: pointer;
 }
 
-/* Buttons */
+/* Header Buttons */
 .button {
     display: flex;
     gap: 15px;
@@ -125,12 +121,9 @@ body {
 
 .button button {
     padding: 12px 24px;
-
     border: none;
     border-radius: 30px;
-
     cursor: pointer;
-
     font-size: 15px;
     font-weight: bold;
 }
@@ -156,35 +149,33 @@ body {
 /* Nocturne Playlist Section */
 .nocturne-playlists {
     padding: 20px;
+    padding-bottom: 110px;
 }
 
 .nocturne-playlists h1 {
     margin-bottom: 20px;
 }
 
-/* Card Container */
+/* Song Cards */
 .cardcontainer {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
     gap: 20px;
 }
 
-/* Card */
 .card {
+    position: relative;
     width: 100%;
-
     background-color: #181818;
-
     padding: 15px;
     border-radius: 8px;
-
     cursor: pointer;
-
-    transition: 0.3s;
+    transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
 .card:hover {
     background-color: #282828;
+    transform: translateY(-2px);
 }
 
 .card img {
@@ -199,72 +190,78 @@ body {
 
 .card p {
     margin-top: 8px;
-
     font-size: 14px;
     color: #b3b3b3;
-
     line-height: 1.4;
 }
 
-/* =========================
-   PLAYBAR
-========================= */
+.card.active {
+    background-color: #282828;
+    border: 1px solid #555;
+}
 
+/* Delete Song Button */
+.delete-song-button {
+    position: absolute;
+    top: 22px;
+    right: 22px;
+    width: 36px;
+    height: 36px;
+    border: none;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.75);
+    color: white;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.2s ease, background 0.2s ease;
+}
+
+.card:hover .delete-song-button {
+    opacity: 1;
+}
+
+.delete-song-button:hover {
+    background: #dc2626;
+}
+
+/* Playbar */
 .playbar {
     position: absolute;
-
     bottom: 0;
     left: 0;
-
     width: 100%;
     height: 80px;
-
     background-color: #181818;
     border-top: 1px solid #333;
-
     display: flex;
     align-items: center;
     justify-content: space-between;
-
     padding: 10px 18px;
-
     z-index: 10;
 }
 
-/* =========================
-   SONG INFORMATION
-========================= */
-
+/* Song Information */
 .song-info {
     width: 25%;
-
     display: flex;
     align-items: center;
-
     min-width: 150px;
 }
 
 .song-image {
     width: 50px;
     height: 50px;
-
     flex-shrink: 0;
-
     margin-right: 12px;
-
     border-radius: 4px;
-
     overflow: hidden;
-
     background-color: #333;
 }
 
 .song-image img {
     width: 100%;
     height: 100%;
-
     object-fit: cover;
-
     display: block;
 }
 
@@ -275,7 +272,6 @@ body {
 .song-name {
     font-size: 14px;
     font-weight: 700;
-
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -283,196 +279,118 @@ body {
 
 .song-artist {
     margin-top: 5px;
-
     color: #b3b3b3;
     font-size: 12px;
-
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
 
-/* =========================
-   CENTER PLAYER
-========================= */
-
+/* Center Player */
 .player {
     width: 50%;
     max-width: 650px;
-
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-/* =========================
-   PLAYER BUTTONS
-========================= */
-
+/* Player Buttons */
 .player-buttons {
     display: flex;
     align-items: center;
     justify-content: center;
-
     gap: 20px;
-
     margin-bottom: 4px;
 }
-
-/* All Buttons */
 
 .player-buttons button {
     width: 28px;
     height: 28px;
-
     padding: 0;
-
     background: transparent;
     border: none;
-
     color: white;
-
     display: flex;
     align-items: center;
     justify-content: center;
-
     cursor: pointer;
-
     opacity: 0.75;
-
-    transition:
-        transform 0.15s ease,
-        opacity 0.15s ease;
+    transition: transform 0.15s ease, opacity 0.15s ease;
 }
-
-/* Hover */
 
 .player-buttons button:hover {
     opacity: 1;
     transform: scale(1.12);
 }
 
-/* =========================
-   SHUFFLE + REPEAT
-========================= */
-
 .player-buttons button img {
     width: 18px;
     height: 18px;
-
     display: block;
-
     object-fit: contain;
-
     filter: invert(1);
 }
 
-/* Active Shuffle / Repeat */
-
 .player-buttons button.active img {
-    filter: invert(52%)
-            sepia(96%)
-            saturate(1200%)
-            hue-rotate(90deg)
-            brightness(95%)
-            contrast(90%);
-
+    filter: invert(52%) sepia(96%) saturate(1200%)
+        hue-rotate(90deg) brightness(95%) contrast(90%);
     transform: scale(1.15);
 }
 
-/* =========================
-   PROGRESS
-========================= */
-
+/* Progress */
 .progress-container {
     width: 100%;
     max-width: 650px;
-
     display: flex;
     align-items: center;
-
     gap: 8px;
 }
 
 .progress-container span {
     color: #b3b3b3;
-
     font-size: 11px;
 }
 
 .progress-container input {
     flex: 1;
-
     height: 4px;
-
     cursor: pointer;
 }
 
-/* =========================
-   VOLUME
-========================= */
-
+/* Volume */
 .volume {
     width: 20%;
-
     display: flex;
     align-items: center;
     justify-content: flex-end;
-
     gap: 8px;
 }
 
 .volume input {
     width: 90px;
-
     cursor: pointer;
 }
 
-/* =========================
-   ACTIVE CARD
-========================= */
-
-.card.active {
-    background-color: #282828;
-
-    border: 1px solid #555;
-}
-
-/* =========================
-   PLAYLIST SPACE
-========================= */
-
-.nocturne-playlists {
-    padding-bottom: 110px;
-}
-
-/* =========================
-   SEARCH
-========================= */
-
+/* Search */
 .hidden {
     display: none !important;
 }
 
 .search-container {
-    margin: 15px 0 25px 0;
+    margin: 15px 0 25px;
 }
 
 .search-container input {
     width: 350px;
-
+    max-width: 100%;
     padding: 12px 18px;
-
     background-color: #242424;
     color: white;
-
     border: 1px solid #444;
     border-radius: 25px;
-
     outline: none;
-
     font-size: 15px;
-
     transition: 0.2s ease;
 }
 
@@ -481,11 +399,292 @@ body {
 }
 
 .search-container input:focus {
-    border-color: white;
+    border-color: #a78bfa;
     background-color: #2a2a2a;
 }
-@media (max-width: 768px) {
 
+/* =========================================
+   NOCTURNE AUTH MODAL — PREMIUM DESIGN
+   Existing class names preserved
+========================================= */
+
+.auth-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+
+    background:
+        radial-gradient(
+            circle at 50% 35%,
+            rgba(124, 58, 237, 0.16),
+            transparent 45%
+        ),
+        rgba(4, 4, 8, 0.84);
+
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+}
+
+/* Modal panel */
+.auth-box {
+    position: relative;
+    width: 100%;
+    max-width: 440px;
+    max-height: calc(100vh - 40px);
+    overflow-y: auto;
+    padding: 38px 34px 30px;
+
+    color: #f7f7fb;
+
+    background:
+        radial-gradient(
+            ellipse at top,
+            rgba(124, 58, 237, 0.14),
+            transparent 55%
+        ),
+        linear-gradient(145deg, #19191f, #101014 75%);
+
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 22px;
+
+    box-shadow:
+        0 28px 90px rgba(0, 0, 0, 0.65),
+        0 0 45px rgba(124, 58, 237, 0.1);
+
+    animation: nocturneAuthEnter 260ms ease-out both;
+}
+
+@keyframes nocturneAuthEnter {
+    from {
+        opacity: 0;
+        transform: translateY(12px) scale(0.985);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* Auth heading */
+.auth-box h2 {
+    margin: 0 0 9px;
+    color: #fff;
+    font-size: 30px;
+    font-weight: 800;
+    letter-spacing: -0.9px;
+    line-height: 1.2;
+}
+
+/* Auth description */
+.auth-box > div > p {
+    margin-bottom: 22px;
+    color: #aaaab5;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+/* Auth inputs */
+.auth-box input {
+    display: block;
+    width: 100%;
+    min-height: 53px;
+    margin-bottom: 13px;
+    padding: 0 16px;
+
+    color: #f9f9fb;
+    background: rgba(255, 255, 255, 0.045);
+
+    border: 1px solid #373740;
+    border-radius: 11px;
+    outline: none;
+    font-size: 15px;
+
+    transition:
+        border-color 180ms ease,
+        background 180ms ease,
+        box-shadow 180ms ease;
+}
+
+.auth-box input::placeholder {
+    color: #92929d;
+}
+
+.auth-box input:hover {
+    border-color: #50505d;
+}
+
+.auth-box input:focus {
+    background: rgba(255, 255, 255, 0.065);
+    border-color: #9b7cf5;
+    box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.14);
+}
+
+/* Login / signup submit buttons */
+.auth-submit {
+    width: 100%;
+    min-height: 53px;
+    margin-top: 8px;
+    padding: 14px 18px;
+
+    color: #fff;
+    background: linear-gradient(110deg, #7c3aed, #635bdf);
+
+    border: 0;
+    border-radius: 13px;
+
+    font-size: 15px;
+    font-weight: 750;
+    letter-spacing: 0.1px;
+
+    cursor: pointer;
+
+    box-shadow: 0 8px 24px rgba(124, 58, 237, 0.2);
+
+    transition:
+        transform 180ms ease,
+        box-shadow 180ms ease,
+        filter 180ms ease;
+}
+
+.auth-submit:hover {
+    transform: translateY(-1px);
+    filter: brightness(1.09);
+    box-shadow: 0 11px 30px rgba(124, 58, 237, 0.3);
+}
+
+.auth-submit:active {
+    transform: scale(0.985);
+}
+
+/* Close button */
+.close-auth {
+    position: absolute;
+    top: 15px;
+    right: 16px;
+
+    display: grid;
+    place-items: center;
+
+    width: 35px;
+    height: 35px;
+    padding: 0;
+
+    color: #a5a5af;
+    background: transparent;
+
+    border: 1px solid transparent;
+    border-radius: 50%;
+
+    font-size: 25px;
+    line-height: 1;
+    cursor: pointer;
+
+    transition:
+        color 180ms ease,
+        background 180ms ease,
+        transform 180ms ease;
+}
+
+.close-auth:hover {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.08);
+    transform: rotate(90deg);
+}
+
+/* OR divider — optional HTML class */
+.auth-divider {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    margin: 19px 0;
+
+    color: #888894;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+}
+
+.auth-divider::before,
+.auth-divider::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: #34343e;
+}
+
+/* Google Login button container */
+#google-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 100%;
+    min-height: 48px;
+    margin-top: 5px;
+    overflow: hidden;
+
+    background: #202027;
+    border: 1px solid #383842;
+    border-radius: 12px;
+
+    transition:
+        background 180ms ease,
+        border-color 180ms ease;
+}
+
+#google-button:hover {
+    background: #292932;
+    border-color: #51515e;
+}
+
+#google-button > div {
+    max-width: 100%;
+}
+
+/* Login / signup switch */
+.auth-switch {
+    margin-top: 23px;
+    color: #a1a1ac;
+    font-size: 13px;
+    line-height: 1.6;
+    text-align: center;
+}
+
+.auth-switch span,
+.auth-switch button {
+    color: #c4b5fd;
+    background: transparent;
+    border: 0;
+    font: inherit;
+    font-weight: 750;
+    cursor: pointer;
+    transition: color 180ms ease;
+}
+
+.auth-switch span:hover,
+.auth-switch button:hover {
+    color: #e9d5ff;
+    text-decoration: underline;
+}
+
+/* Logged-in username */
+.welcome-user {
+    display: flex;
+    align-items: center;
+    color: white;
+    font-weight: 500;
+}
+
+/* =========================================
+   RESPONSIVE LAYOUT
+========================================= */
+
+@media (max-width: 768px) {
     .left {
         display: none;
     }
@@ -513,10 +712,6 @@ body {
     .card p {
         font-size: 12px;
     }
-
-    /* =========================
-       MOBILE PLAYBAR
-    ========================= */
 
     .playbar {
         height: 70px;
@@ -574,138 +769,29 @@ body {
         display: none;
     }
 }
-/* =========================
-   AUTH MODAL
-========================= */
 
-.auth-modal {
-    position: fixed;
-    inset: 0;
+/* Auth modal on mobile */
+@media (max-width: 480px) {
+    .auth-modal {
+        padding: 15px;
+    }
 
-    background-color: rgba(0, 0, 0, 0.75);
+    .auth-box {
+        max-width: 100%;
+        max-height: calc(100vh - 30px);
+        padding: 34px 22px 25px;
+        border-radius: 19px;
+    }
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    .auth-box h2 {
+        font-size: 26px;
+    }
 
-    z-index: 100;
-}
+    .auth-box input {
+        min-height: 50px;
+    }
 
-.auth-box {
-    position: relative;
-
-    width: 400px;
-    max-width: 90%;
-
-    padding: 35px;
-
-    background-color: #181818;
-    border-radius: 12px;
-
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
-}
-
-.auth-box h2 {
-    font-size: 24px;
-    margin-bottom: 10px;
-}
-
-.auth-box > div > p {
-    color: #b3b3b3;
-    font-size: 14px;
-    margin-bottom: 25px;
-}
-
-.auth-box input {
-    width: 100%;
-
-    padding: 13px 15px;
-    margin-bottom: 12px;
-
-    background-color: #242424;
-    color: white;
-
-    border: 1px solid #444;
-    border-radius: 6px;
-
-    outline: none;
-
-    font-size: 14px;
-}
-
-.auth-box input:focus {
-    border-color: white;
-}
-
-.auth-box input::placeholder {
-    color: #999;
-}
-
-.auth-submit {
-    width: 100%;
-
-    padding: 13px;
-
-    margin-top: 8px;
-
-    border: none;
-    border-radius: 25px;
-
-    background-color: white;
-    color: black;
-
-    font-size: 15px;
-    font-weight: 700;
-
-    cursor: pointer;
-
-    transition: 0.2s ease;
-}
-
-.auth-submit:hover {
-    transform: scale(1.02);
-}
-
-.close-auth {
-    position: absolute;
-
-    top: 15px;
-    right: 15px;
-
-    background: transparent;
-    border: none;
-
-    color: #aaa;
-
-    font-size: 20px;
-
-    cursor: pointer;
-}
-
-.close-auth:hover {
-    color: white;
-}
-
-.auth-switch {
-    text-align: center;
-    margin-top: 20px;
-
-    color: #aaa;
-    font-size: 13px;
-}
-
-.auth-switch span {
-    color: white;
-    font-weight: 700;
-    cursor: pointer;
-}
-
-.auth-switch span:hover {
-    text-decoration: underline;
-}
-.welcome-user {
-    color: white;
-    font-weight: 500;
-    display: flex;
-    align-items: center;
+    .auth-submit {
+        min-height: 51px;
+    }
 }

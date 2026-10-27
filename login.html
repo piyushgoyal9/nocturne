@@ -1,137 +1,77 @@
-<!DOCTYPE html>
 
-<html lang="en">
+<script>
+    const GOOGLE_CLIENT_ID =
+        "687284331652-tgq1ea8aj5sgnfihek8nbmk4oumkbbep.apps.googleusercontent.com";
 
-<head>
+    function initializeGoogleButton() {
+        const container = document.getElementById("google-button");
 
-<meta charset="UTF-8">
+        if (!container) {
+            console.error("Google button container not found.");
+            return;
+        }
 
-<meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
->
+        if (!window.google?.accounts?.id) {
+            container.textContent = "Google sign-in failed to load.";
+            console.error("Google Identity Services script is unavailable.");
+            return;
+        }
 
-<title>Login - Nocturne</title>
+        if (typeof window.handleGoogleLogin !== "function") {
+            container.textContent = "Google login handler is unavailable.";
+            console.error("handleGoogleLogin is not defined.");
+            return;
+        }
 
-<link
-    rel="stylesheet"
-    href="auth.css"
->
+        try {
+            google.accounts.id.initialize({
+                client_id: GOOGLE_CLIENT_ID,
+                callback: window.handleGoogleLogin,
+                auto_select: false
+            });
 
-<!-- Google Identity Services -->
+            container.innerHTML = "";
 
-<script
-    src="https://accounts.google.com/gsi/client"
-    async
-    defer
-></script>
+            google.accounts.id.renderButton(container, {
+                type: "standard",
+                theme: "outline",
+                size: "large",
+                text: "continue_with",
+                shape: "rectangular",
+                logo_alignment: "left",
+                width: 300
+            });
+        } catch (error) {
+            console.error("Google button initialization failed:", error);
+            container.textContent = "Unable to initialize Google sign-in.";
+        }
+    }
 
-</head>
+    function waitForGoogleScript() {
+        const script = document.querySelector(
+            'script[src="https://accounts.google.com/gsi/client"]'
+        );
 
-<body>
+        if (window.google?.accounts?.id) {
+            initializeGoogleButton();
+            return;
+        }
 
-<div class="auth-container">
+        if (!script) {
+            console.error("Google Identity Services script tag not found.");
+            return;
+        }
 
-    <div class="auth-box">
+        script.addEventListener("load", initializeGoogleButton, { once: true });
 
-        <h1>Nocturne</h1>
+        script.addEventListener("error", () => {
+            const container = document.getElementById("google-button");
+            if (container) {
+                container.textContent =
+                    "Google sign-in couldn't load. Check your connection.";
+            }
+        }, { once: true });
+    }
 
-        <h2>Welcome back</h2>
-
-        <p class="subtitle">
-            Log in to continue listening.
-        </p>
-
-
-        <!-- NORMAL LOGIN -->
-
-        <form id="login-form">
-
-            <label for="email">
-                Email
-            </label>
-
-            <input
-                type="email"
-                id="email"
-                placeholder="Enter your email"
-                required
-            >
-
-
-            <label for="password">
-                Password
-            </label>
-
-            <input
-                type="password"
-                id="password"
-                placeholder="Enter your password"
-                required
-            >
-
-
-            <button type="submit">
-                Log In
-            </button>
-
-        </form>
-
-
-        <!-- DIVIDER -->
-
-        <div class="auth-divider">
-
-            <span>
-                OR
-            </span>
-
-        </div>
-
-
-        <!-- GOOGLE LOGIN -->
-
-        <div
-            id="g_id_onload"
-            data-client_id="687284331652-tgq1ea8aj5sgnfihek8nbmk4oumkbbep.apps.googleusercontent.com"
-            data-callback="handleGoogleLogin"
-            data-auto_prompt="false"
-        ></div>
-
-
-        <div
-            class="g_id_signin"
-            data-type="standard"
-            data-size="large"
-            data-theme="outline"
-            data-text="continue_with"
-            data-shape="rectangular"
-            data-logo_alignment="left"
-            data-width="300"
-        ></div>
-
-
-        <p id="message"></p>
-
-
-        <p class="switch-auth">
-
-            Don't have an account?
-
-            <a href="signup.html">
-                Sign up
-            </a>
-
-        </p>
-
-    </div>
-
-</div>
-
-
-<script src="login.js"></script>
-
-
-</body>
-
-</html>
+    waitForGoogleScript();
+</script>
